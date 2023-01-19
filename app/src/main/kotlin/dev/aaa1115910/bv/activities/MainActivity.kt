@@ -20,25 +20,11 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        var keepSplashScreen = true
-        installSplashScreen().apply {
-            setKeepOnScreenCondition { keepSplashScreen }
-        }
+        installSplashScreen()
         super.onCreate(savedInstanceState)
-
         setContent {
-            val scope = rememberCoroutineScope()
-            var isMainlandChina by remember { mutableStateOf(false) }
-
-            LaunchedEffect(Unit) {
-                scope.launch(Dispatchers.Default) {
-                    isMainlandChina = NetworkUtil.isMainlandChina()
-                    keepSplashScreen = false
-                }
-            }
-
             BVTheme {
-                if (isMainlandChina) RegionBlockScreen() else HomeScreen()
+                HomeScreen()
             }
         }
     }
